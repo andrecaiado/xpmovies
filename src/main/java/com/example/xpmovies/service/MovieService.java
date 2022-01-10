@@ -1,5 +1,6 @@
 package com.example.xpmovies.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.example.xpmovies.dto.MovieCreateDto;
@@ -14,8 +15,10 @@ public interface MovieService {
 	
 	MovieViewDto updateMovie(MovieUpdateDto movieUpdateDto);
 	
-	void deleteMovie();
+	void deleteMovie(int movieId);
 	
-	List<MovieViewDto> getMoviesByLaunchDate();
+	List<MovieViewDto> getAllMovies();
+	
+	List<MovieViewDto> getMoviesByLaunchDate(Date launchDate);
 	
 }

@@ -1,5 +1,6 @@
 package com.example.xpmovies.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.example.xpmovies.dto.MovieCreateDto;
@@ -27,13 +28,19 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public void deleteMovie() {
+	public List<MovieViewDto> getAllMovies() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteMovie(int movieId) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public List<MovieViewDto> getMoviesByLaunchDate() {
+	public List<MovieViewDto> getMoviesByLaunchDate(Date launchDate) {
 		// TODO Auto-generated method stub
 		return null;
 	}
