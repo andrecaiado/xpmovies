@@ -31,14 +31,9 @@ public class MovieController {
 	private MovieService movieService;
 	
 	@GetMapping()
-	public ResponseEntity<List<MovieViewDto>> getAllMovies() {
-		return ResponseEntity.ok(movieService.getAllMovies());
-	}
-	
-	@GetMapping()
 	public ResponseEntity<List<MovieViewDto>> getMoviesByLaunchDate(
 			@RequestParam("launchdate") @DateTimeFormat(pattern="yyyy-MM-dd") Date launchDate) {
-		return ResponseEntity.ok(movieService.getMoviesByLaunchDate(launchDate));
+		return ResponseEntity.ok(movieService.getMovies(launchDate));
 	}
 	
 	@PostMapping()

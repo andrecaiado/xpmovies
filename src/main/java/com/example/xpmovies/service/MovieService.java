@@ -17,8 +17,6 @@ public interface MovieService {
 	
 	void deleteMovie(int movieId);
 	
-	List<MovieViewDto> getAllMovies();
-	
-	List<MovieViewDto> getMoviesByLaunchDate(Date launchDate);
+	List<MovieViewDto> getMovies(Date launchDate);
 	
 }
