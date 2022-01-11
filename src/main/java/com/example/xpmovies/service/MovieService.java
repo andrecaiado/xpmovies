@@ -11,7 +11,7 @@ public interface MovieService {
 
 	MovieViewDto createMovie(MovieCreateDto movieCreateDto);
 	
-	MovieViewDto viewMovie(int movieId);
+	MovieViewDto getMovieById(int movieId);
 	
 	MovieViewDto updateMovie(MovieUpdateDto movieUpdateDto);
 	

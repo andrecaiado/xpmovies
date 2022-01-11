@@ -32,13 +32,13 @@ public class MovieController {
 	
 	@GetMapping()
 	public ResponseEntity<List<MovieViewDto>> getMoviesByLaunchDate(
-			@RequestParam("launchdate") @DateTimeFormat(pattern="yyyy-MM-dd") Date launchDate) {
+			@RequestParam(required=false) @DateTimeFormat(pattern="yyyy-MM-dd") Date launchDate) {
 		return ResponseEntity.ok(movieService.getMovies(launchDate));
 	}
 	
 	@GetMapping("/{movieId}")
-	public ResponseEntity<MovieViewDto> getMoviesById(@PathVariable("movieId") int movieId) {
-		return ResponseEntity.ok(movieService.viewMovie(movieId));
+	public ResponseEntity<MovieViewDto> getMovieById(@PathVariable("movieId") int movieId) {
+		return ResponseEntity.ok(movieService.getMovieById(movieId));
 	}
 	
 	@PostMapping()

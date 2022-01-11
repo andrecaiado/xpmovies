@@ -1,5 +1,6 @@
 package com.example.xpmovies.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +28,8 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public MovieViewDto viewMovie(int movieId) {
-		return convertMovieToMovieViewDto(getMovieById(movieId));
+	public MovieViewDto getMovieById(int movieId) {
+		return convertMovieToMovieViewDto(findMovieById(movieId));
 	}
 
 	@Override
@@ -45,11 +46,30 @@ public class MovieServiceImpl implements MovieService {
 
 	@Override
 	public List<MovieViewDto> getMovies(Date launchDate) {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<Movie> movies = null;		
+		
+		if (launchDate == null) {
+		
+			movies = movieRepository.findAll();
+			
+		} else {
+			
+			movies = movieRepository.findAllByLaunchDate(launchDate);
+			
+		}
+		
+		List<MovieViewDto> moviesDto = new ArrayList<MovieViewDto>();
+		
+		for (Movie movie : movies) {
+			moviesDto.add( convertMovieToMovieViewDto(movie) );
+		}
+		
+		return moviesDto;
+		
 	}
 	
-	private Movie getMovieById(int movieId) {
+	private Movie findMovieById(int movieId) {
 		
 		Optional<Movie> movie = movieRepository.findById(movieId);
 		
