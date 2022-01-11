@@ -3,6 +3,7 @@ package com.example.xpmovies.exception;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -41,6 +42,16 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				);
 		
 		return ResponseEntity.badRequest().body(errorResponse);
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+    	ErrorResponse errorResponse = new ErrorResponse(
+        		HttpStatus.BAD_REQUEST.value(),
+        		ex.getMessage()
+        		);
+        return handleExceptionInternal(ex, errorResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
 
     @ExceptionHandler({ MovieNotFoundException.class })

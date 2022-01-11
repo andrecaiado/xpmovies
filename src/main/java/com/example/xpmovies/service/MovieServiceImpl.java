@@ -26,8 +26,16 @@ public class MovieServiceImpl implements MovieService {
 	
 	@Override
 	public MovieViewDto createMovie(MovieCreateDto movieCreateDto) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Movie movie = new Movie();
+		movie.setTitle(movieCreateDto.getTitle());
+		movie.setLaunchDate(movieCreateDto.getLaunchDate());
+		movie.setRank(movieCreateDto.getRank());
+		movie.setRevenue(movieCreateDto.getRevenue());
+		
+		int id = movieRepository.save(movie).getId();
+		
+		return getMovieById(id);
 	}
 
 	@Override
