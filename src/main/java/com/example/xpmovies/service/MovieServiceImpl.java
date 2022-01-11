@@ -29,7 +29,7 @@ public class MovieServiceImpl implements MovieService {
 	public MovieViewDto createMovie(MovieCreateDto movieCreateDto) {
 		
 		// Validate movie data
-		validateMovieData(movieCreateDto);
+		validateMovieDataToCreate(movieCreateDto);
 		
 		Movie movie = new Movie();
 		movie.setTitle(movieCreateDto.getTitle());
@@ -42,9 +42,9 @@ public class MovieServiceImpl implements MovieService {
 		return getMovieById(id);
 	}
 
-	private void validateMovieData(MovieCreateDto movieCreateDto) {
+	private void validateMovieDataToCreate(MovieCreateDto movieCreateDto) {
 
-		// Validate title
+		// Validate that a movie with the same title does not exists
 		if (movieRepository.findByTitle(movieCreateDto.getTitle()) != null ) {
 			throw new MovieTitleAlreadyExistsException("A movie with the title '" + movieCreateDto.getTitle() + "' is already registered in the database.");
 		};
@@ -58,8 +58,30 @@ public class MovieServiceImpl implements MovieService {
 
 	@Override
 	public MovieViewDto updateMovie(MovieUpdateDto movieUpdateDto) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Movie movie = findMovieById(movieUpdateDto.getId());
+		
+		// Validate movie data
+		validateMovieDataToUpdate(movieUpdateDto);
+				
+		movie.setTitle(movieUpdateDto.getTitle());
+		movie.setLaunchDate(movieUpdateDto.getLaunchDate());
+		movie.setRank(movieUpdateDto.getRank());
+		movie.setRevenue(movieUpdateDto.getRevenue());
+		
+		int id = movieRepository.save(movie).getId();
+		
+		return getMovieById(id);
+		
+	}
+	
+	private void validateMovieDataToUpdate(MovieUpdateDto movieUpdateDto) {
+
+		// Validate that a movie with the same title does not exists (besides the movie we are updating)
+		if (movieRepository.findByTitleAndIdNot(movieUpdateDto.getTitle(), movieUpdateDto.getId()) != null ) {
+			throw new MovieTitleAlreadyExistsException("A movie with the title '" + movieUpdateDto.getTitle() + "' is already registered in the database.");
+		};
+		
 	}
 
 	@Override
