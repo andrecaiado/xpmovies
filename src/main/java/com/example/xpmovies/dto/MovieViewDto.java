@@ -1,5 +1,6 @@
 package com.example.xpmovies.dto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import lombok.Data;
@@ -12,7 +13,7 @@ public class MovieViewDto {
 	private int id;
 	private String title;
 	private Date launchDate;
-	private int rank;
-	private Double revenue;
+	private Double rank;
+	private BigDecimal revenue;
 	
 }
