@@ -16,6 +16,7 @@ import com.example.xpmovies.dto.MovieUpdateDto;
 import com.example.xpmovies.dto.MovieViewDto;
 import com.example.xpmovies.entity.Movie;
 import com.example.xpmovies.exception.MovieNotFoundException;
+import com.example.xpmovies.exception.MovieTitleAlreadyExistsException;
 import com.example.xpmovies.repository.MovieRepository;
 
 @Service
@@ -27,6 +28,9 @@ public class MovieServiceImpl implements MovieService {
 	@Override
 	public MovieViewDto createMovie(MovieCreateDto movieCreateDto) {
 		
+		// Validate movie data
+		validateMovieData(movieCreateDto);
+		
 		Movie movie = new Movie();
 		movie.setTitle(movieCreateDto.getTitle());
 		movie.setLaunchDate(movieCreateDto.getLaunchDate());
@@ -36,6 +40,15 @@ public class MovieServiceImpl implements MovieService {
 		int id = movieRepository.save(movie).getId();
 		
 		return getMovieById(id);
+	}
+
+	private void validateMovieData(MovieCreateDto movieCreateDto) {
+
+		// Validate title
+		if (movieRepository.findByTitle(movieCreateDto.getTitle()) != null ) {
+			throw new MovieTitleAlreadyExistsException("A movie with the title '" + movieCreateDto.getTitle() + "' is already registered in the database.");
+		};
+		
 	}
 
 	@Override

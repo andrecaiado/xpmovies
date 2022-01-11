@@ -64,4 +64,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(ex, errorResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
     
+    @ExceptionHandler({ MovieTitleAlreadyExistsException.class })
+    public ResponseEntity<Object> handleMovieTitleAlreadyExists(final RuntimeException ex, final WebRequest request) {
+        logger.error("409 Status Code", ex);
+        ErrorResponse errorResponse = new ErrorResponse(
+        		HttpStatus.CONFLICT.value(),
+        		ex.getMessage()
+        		);
+        return handleExceptionInternal(ex, errorResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+    
 }
