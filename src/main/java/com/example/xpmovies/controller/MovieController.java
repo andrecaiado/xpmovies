@@ -1,11 +1,11 @@
 package com.example.xpmovies.controller;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,9 +31,13 @@ public class MovieController {
 	private MovieService movieService;
 	
 	@GetMapping()
-	public ResponseEntity<List<MovieViewDto>> getMoviesByLaunchDate(
-			@RequestParam(required=false) @DateTimeFormat(pattern="yyyy-MM-dd") Date launchDate) {
-		return ResponseEntity.ok(movieService.getMovies(launchDate));
+	public ResponseEntity<Page<MovieViewDto>> getMoviesByLaunchDate(
+			@RequestParam(value="launchdate", required=false) @DateTimeFormat(pattern="yyyy-MM-dd") Date launchDate,
+			@RequestParam(value="page", defaultValue="0") Integer page,
+			@RequestParam(value="size", defaultValue="10") Integer size,
+			@RequestParam(value="sort", defaultValue="title") String sort,
+			@RequestParam(value="direction", defaultValue="asc") String direction) {
+		return ResponseEntity.ok(movieService.getMovies(launchDate, page, size, sort, direction));
 	}
 	
 	@GetMapping("/{movieId}")

@@ -1,11 +1,14 @@
 package com.example.xpmovies.service;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.example.xpmovies.dto.MovieCreateDto;
@@ -45,25 +48,25 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public List<MovieViewDto> getMovies(Date launchDate) {
+	public Page<MovieViewDto> getMovies(Date launchDate, Integer page, Integer size, String sort, String direction) {
 
-		List<Movie> movies = null;		
+		Page<Movie> movies = null;		
+		
+		Direction sortDir = "desc".equals(direction) ? Direction.DESC : Direction.ASC;
+		
+		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDir, sort));
 		
 		if (launchDate == null) {
 		
-			movies = movieRepository.findAll();
+			movies = movieRepository.findAll(pageable);
 			
 		} else {
 			
-			movies = movieRepository.findAllByLaunchDate(launchDate);
+			movies = movieRepository.findAllByLaunchDate(launchDate, pageable);
 			
 		}
 		
-		List<MovieViewDto> moviesDto = new ArrayList<MovieViewDto>();
-		
-		for (Movie movie : movies) {
-			moviesDto.add( convertMovieToMovieViewDto(movie) );
-		}
+		Page<MovieViewDto> moviesDto = movies.map( this::convertMovieToMovieViewDto );
 		
 		return moviesDto;
 		

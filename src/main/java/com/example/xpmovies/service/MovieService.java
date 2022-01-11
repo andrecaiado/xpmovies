@@ -1,7 +1,8 @@
 package com.example.xpmovies.service;
 
 import java.util.Date;
-import java.util.List;
+
+import org.springframework.data.domain.Page;
 
 import com.example.xpmovies.dto.MovieCreateDto;
 import com.example.xpmovies.dto.MovieUpdateDto;
@@ -17,6 +18,6 @@ public interface MovieService {
 	
 	void deleteMovie(int movieId);
 	
-	List<MovieViewDto> getMovies(Date launchDate);
+	Page<MovieViewDto> getMovies(Date launchDate, Integer page, Integer size, String sort, String direction);
 	
 }
