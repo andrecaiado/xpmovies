@@ -86,7 +86,12 @@ public class MovieServiceImpl implements MovieService {
 
 	@Override
 	public void deleteMovie(int movieId) {
-		// TODO Auto-generated method stub
+
+		Movie movie = findMovieById(movieId);
+		
+		movieRepository.delete(movie);
+		
+		return;
 		
 	}
 
